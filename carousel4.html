@@ -28,6 +28,7 @@
 	</style>
 </head>
 <body>
+
 	
 	<div id="container">
 		<ul id="carousel">
@@ -39,15 +40,13 @@
 			<li id="5"><img src="http://lorempixel.com/400/200/?blahfgd"></li>
 		</ul>
 	</div>
-	<a href="" id="prev">Prev</a> | <a href="" id="next">Next</a>
-
 
 		<script type="text/javascript">
 
 			// helper function for console.log
 			var trace = function(_p){
 				if(window.console && window.console.log){
-					window.console.log(_p[name]);
+					window.console.log(_p);
 				} 
 			}
 
@@ -60,52 +59,41 @@
 				animating: false,
 				w: 400,
 				inc: 10,
+				dir: -1,
 				initCarousel: function(){
 					carousel.style.left = "0px";
 		  		carousel.style.width = parseInt(this.lis.length*400) + 'px'
 				},
-				moveCarousel: function(dir){
-					// var finalPos = current*400*dir;
-					if(this.moveCount < (this.w/this.inc)){
-						this.carousel.style.left = parseInt(this.carousel.style.left) + dir*this.inc + 'px';
-						this.moveCount++
-						this.animating = true;
-						setTimeout(function(){myCarousel.moveCarousel(dir)},10); // call doMove() in 20 msec
+				moveCarousel: function(){
+
+					trace("current is " + myCarousel.current)
+					trace("dir is " + myCarousel.dir)
+
+					if(myCarousel.moveCount < (myCarousel.w/myCarousel.inc)){
+						myCarousel.carousel.style.left = parseInt(myCarousel.carousel.style.left) + myCarousel.dir*myCarousel.inc + 'px';
+						myCarousel.moveCount++
+						myCarousel.animating = true;
+						setTimeout(function(){myCarousel.moveCarousel(myCarousel.dir)},10); // call doMove() in 20 msec
 					}else{
-						this.animating = false;
-						this.moveCount = 0;
+						myCarousel.animating = false;
+						myCarousel.moveCount = 0;
+						
+
+						if(myCarousel.current >= myCarousel.lis.length-2 || myCarousel.current < 0){
+							myCarousel.dir*=-1;
+							
+						}
+
+						myCarousel.current = myCarousel.current + myCarousel.dir*-1;
 					}
+
+
 				}
 			}
 
 			myCarousel.initCarousel(); // init the application
-
-			// when you click the prev button, run a func
-			document.getElementById("prev").onclick = function(e){
-		    // prevents page refresh
-		    e.preventDefault();
-
-		    // append the first li to the end
-		    //carousel.appendChild(lis[0]);
-		    if(myCarousel.current > 0 && !myCarousel.animating){
-		    	myCarousel.current--;
-		    	myCarousel.moveCarousel(1)
-		    }
-			}
-
-			// when you click the next button, run a func
-			document.getElementById("next").onclick = function(e){
-		    // prevents page refresh
-		    e.preventDefault();
-		    if(myCarousel.current < myCarousel.lis.length-1 && !myCarousel.animating){
-			    myCarousel.current++;
-			    myCarousel.moveCarousel(-1)
-			  }
-			}
-
-
-
-
+			var myTimer = window.setInterval(myCarousel.moveCarousel, 2000)
+	
 	
 	</script>
 </body>
