@@ -1,0 +1,71 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<style type="text/css">
+		#container {
+			position: relative;
+			overflow: hidden;
+			height: 200px;
+			width: 400px;
+		}
+		li {
+			list-style-type: none;
+			position: absolute;
+			left: 0;
+			top: 0;
+		}
+	</style>
+</head>
+<body>
+	<a href="" id="prev">Prev</a>
+	<div id="container">
+		<ul id="carousel">
+			<li id="0"><img src="http://lorempixel.com/400/200/?blah"></li>
+			<li id="1"><img src="http://lorempixel.com/400/200/?blarthh"></li>
+			<li id="2"><img src="http://lorempixel.com/400/200/?blayj5h"></li>
+			<li id="3"><img src="http://lorempixel.com/400/200/?blhrthah"></li>
+			<li id="4"><img src="http://lorempixel.com/400/200/?blsdfgah"></li>
+			<li id="5"><img src="http://lorempixel.com/400/200/?blahfgd"></li>
+		</ul>
+	</div>
+	<a href="" id="next">Next</a>
+
+
+		<script type="text/javascript">
+
+			// get all the list items and put in var lis
+			var lis = document.getElementById("container").getElementsByTagName("li");
+
+			// put the coursel elementNode into a variable
+		  var carousel = document.getElementById("carousel")
+
+			// when you click the prev button, run a func
+			document.getElementById("prev").onclick = function(e){
+			    x
+			    // prevents page refresh
+			    e.preventDefault();
+
+			    // append the first li to the end
+			    carousel.appendChild(lis[0]);
+
+			}
+
+			// when you click the next button, run a func
+			document.getElementById("next").onclick = function(e){
+		    
+		    // prevents page refresh
+		    e.preventDefault();
+
+		    // get length of array
+		    var l = lis.length-1;
+
+		   	// move the last element to before the first one
+		   	carousel.insertBefore(lis[l], carousel.firstChild)
+
+		}
+	
+	</script>
+</body>
+</html>

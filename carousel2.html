@@ -1,0 +1,113 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<style type="text/css">
+		#container {
+			position: relative;
+			overflow: hidden;
+			height: 200px;
+			width: 400px;
+		}
+
+		#carousel{
+			position:absolute;
+			left:0;
+			top:0;
+			padding:0;
+			margin: 0;
+
+		}
+		#carousel li {
+			list-style-type: none;
+			float: left;
+			margin: 0;
+			padding: 0;
+		}
+	</style>
+</head>
+<body>
+	<a href="" id="prev">Prev</a>
+	<div id="container">
+		<ul id="carousel">
+			<li id="0"><img src="http://lorempixel.com/400/200/?blah"></li>
+			<li id="1"><img src="http://lorempixel.com/400/200/?blarthh"></li>
+			<li id="2"><img src="http://lorempixel.com/400/200/?blayj5h"></li>
+			<li id="3"><img src="http://lorempixel.com/400/200/?blhrthah"></li>
+			<li id="4"><img src="http://lorempixel.com/400/200/?blsdfgah"></li>
+			<li id="5"><img src="http://lorempixel.com/400/200/?blahfgd"></li>
+		</ul>
+	</div>
+	<a href="" id="next">Next</a>
+
+
+		<script type="text/javascript">
+
+			// get all the list items and put in var lis
+			var lis = document.getElementById("container").getElementsByTagName("li");
+
+			// put the coursel elementNode into a variable
+		  var carousel = document.getElementById("carousel")
+		  carousel.style.left = "0px";
+		  console.log(parseInt(lis.length))
+		  carousel.style.width = parseInt(lis.length*400) + 'px'
+
+		  var current = 0;
+		  var moveCount = 0;
+		  var animating = false;
+		  var w = 400;
+		  
+		  
+		  
+		  
+
+			// when you click the prev button, run a func
+			document.getElementById("prev").onclick = function(e){
+			    
+			    // prevents page refresh
+			    e.preventDefault();
+
+			    // append the first li to the end
+			    //carousel.appendChild(lis[0]);
+			    if(current > 0 && !animating){
+			    	current--;
+			    	doMove(1)
+			    }
+			    
+			}
+
+			// when you click the next button, run a func
+			document.getElementById("next").onclick = function(e){
+		    
+		    // prevents page refresh
+		    e.preventDefault();
+		    if(current < lis.length-1 && !animating){
+			    	current++;
+			    	doMove(-1)
+			    }
+		
+
+		}
+
+
+
+		function doMove(dir) {
+			// var finalPos = current*400*dir;
+			var inc = 10;
+
+			if(moveCount < (w/inc)){
+				carousel.style.left = parseInt(carousel.style.left) + dir*inc + 'px';
+				moveCount++
+				animating = true;
+				setTimeout(function(){doMove(dir)},10); // call doMove() in 20 msec
+			}else{
+				animating = false;
+				moveCount = 0;
+			}
+			
+		}
+	
+	</script>
+</body>
+</html>
