@@ -4,11 +4,32 @@
 	<meta charset="UTF-8">
 	<title></title>
 	<style type="text/css">
+		#carouselWrapper {
+			width: 600px;
+			margin-left: auto;
+			margin-right: auto;
+			text-align: center;
+		}
+		a.nav {
+			text-decoration: none;
+			font-size: 5em;
+			display: inline;
+		}
+		a.nav:hover {
+			color: #666;
+		}
+		#prev {
+			float: left;
+		}
+		#next {
+			float: right;
+		}
 		#container {
 			position: relative;
 			overflow: hidden;
 			height: 200px;
 			width: 400px;
+			display: inline-block;
 		}
 
 		#carousel{
@@ -28,80 +49,110 @@
 	</style>
 </head>
 <body>
-	<a href="" id="prev">Prev</a>
-	<div id="container">
-		<ul id="carousel">
-			<li id="0"><img src="http://lorempixel.com/400/200/?blah"></li>
-			<li id="1"><img src="http://lorempixel.com/400/200/?blarthh"></li>
-			<li id="2"><img src="http://lorempixel.com/400/200/?blayj5h"></li>
-			<li id="3"><img src="http://lorempixel.com/400/200/?blhrthah"></li>
-			<li id="4"><img src="http://lorempixel.com/400/200/?blsdfgah"></li>
-			<li id="5"><img src="http://lorempixel.com/400/200/?blahfgd"></li>
-		</ul>
+	<div id="carouselWrapper">
+		<a href="" id="prev" class="nav">‹</a>
+		<div id="container">
+			<ul id="carousel">
+				<li id="0"><img src="http://lorempixel.com/400/200/?blah"></li>
+				<li id="1"><img src="http://lorempixel.com/400/200/?blarthh"></li>
+				<li id="2"><img src="http://lorempixel.com/400/200/?blayj5h"></li>
+				<li id="3"><img src="http://lorempixel.com/400/200/?blhrthah"></li>
+				<li id="4"><img src="http://lorempixel.com/400/200/?blsdfgah"></li>
+				<li id="5"><img src="http://lorempixel.com/400/200/?blahfgd"></li>
+			</ul>
+		</div>
+		<a href="" id="next" class="nav">›</a>
 	</div>
-	<a href="" id="next">Next</a>
-
 
 		<script type="text/javascript">
+
+			// get the prev and next elements and put them in variables
+			var prevButton = document.getElementById("prev");
+			var nextButton = document.getElementById("next");
 
 			// get all the list items and put in var lis
 			var lis = document.getElementById("container").getElementsByTagName("li");
 
 			// put the coursel elementNode into a variable
-		  var carousel = document.getElementById("carousel")
+		  var carousel = document.getElementById("carousel");
 		  carousel.style.left = "0px";
-		  console.log(parseInt(lis.length))
-		  carousel.style.width = parseInt(lis.length*400) + 'px'
+		  carousel.style.width = parseInt(lis.length*400) + 'px';
 
-		  var current = 0;
-		  var moveCount = 0;
-		  var animating = false;
-		  var w = 400;
-		  
-		  
-		  
-		  
+		  // set up defaults
+			  //width of the image
+			  var w = 400; 
+			  // set color for button links
+			  var originalButtonColor = '#000';
+			  var disabledButtonColor = '#ebebeb';
 
+		  // global defaults -- do not change
+			  var current = 0;
+			  var moveCount = 0;
+			  var animating = false;
+			  // make prev button disabled color by default
+			  prevButton.style.color = disabledButtonColor;
+			  nextButton.style.color = originalButtonColor;
+		  
 			// when you click the prev button, run a func
-			document.getElementById("prev").onclick = function(e){
-			    
+			prevButton.onclick = function(e){
+
 			    // prevents page refresh
 			    e.preventDefault();
 
 			    // append the first li to the end
-			    //carousel.appendChild(lis[0]);
 			    if(current > 0 && !animating){
+
+			    	// set flags
 			    	current--;
-			    	doMove(1)
+			    	doMove(1);
+
+			    	// set next back to original color
+			    	nextButton.style.color = originalButtonColor;
+
+			    	if (current == 0) {
+			    		// set to "disabled color"
+			    		prevButton.style.color = disabledButtonColor;
+			    	}
+
 			    }
-			    
+
 			}
 
 			// when you click the next button, run a func
-			document.getElementById("next").onclick = function(e){
-		    
+			nextButton.onclick = function(e){
+
 		    // prevents page refresh
 		    e.preventDefault();
+
 		    if(current < lis.length-1 && !animating){
-			    	current++;
-			    	doMove(-1)
-			    }
-		
 
-		}
+		    	// set flags
+		    	current++;
+		    	doMove(-1);
 
+		    	// set prev back to original color
+		    	prevButton.style.color = originalButtonColor;
+
+		    	if (current == lis.length-1) {
+		    		nextButton.style.color = disabledButtonColor;
+		    	}
+
+			  }
+
+			}
 
 
 		function doMove(dir) {
-			// var finalPos = current*400*dir;
-			var inc = 10;
+
+			// change inc to change the speed. large numbers move faster
+			var inc = 20;
 
 			if(moveCount < (w/inc)){
 				carousel.style.left = parseInt(carousel.style.left) + dir*inc + 'px';
-				moveCount++
+				moveCount++;
 				animating = true;
 				setTimeout(function(){doMove(dir)},10); // call doMove() in 20 msec
-			}else{
+			} else {
 				animating = false;
 				moveCount = 0;
 			}
