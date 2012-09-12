@@ -1,0 +1,113 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<style type="text/css">
+		#container {
+			position: relative;
+			overflow: hidden;
+			height: 200px;
+			width: 400px;
+		}
+
+		#carousel{
+			position:absolute;
+			left:0;
+			top:0;
+			padding:0;
+			margin: 0;
+
+		}
+		#carousel li {
+			list-style-type: none;
+			float: left;
+			margin: 0;
+			padding: 0;
+		}
+	</style>
+</head>
+<body>
+	<a href="" id="prev">Prev</a>
+	<div id="container">
+		<ul id="carousel">
+			<li id="0"><img src="http://lorempixel.com/400/200/?blah"></li>
+			<li id="1"><img src="http://lorempixel.com/400/200/?blarthh"></li>
+			<li id="2"><img src="http://lorempixel.com/400/200/?blayj5h"></li>
+			<li id="3"><img src="http://lorempixel.com/400/200/?blhrthah"></li>
+			<li id="4"><img src="http://lorempixel.com/400/200/?blsdfgah"></li>
+			<li id="5"><img src="http://lorempixel.com/400/200/?blahfgd"></li>
+		</ul>
+	</div>
+	<a href="" id="next">Next</a>
+
+
+		<script type="text/javascript">
+
+			// helper function for console.log
+			var trace = function(_p){
+				if(window.console && window.console.log){
+					window.console.log(_p[name]);
+				} 
+			}
+
+			// scoping inside an object - not really sure why but just trying it out
+			var myCarousel = {
+				lis: document.getElementById("container").getElementsByTagName("li"),
+				carousel: document.getElementById("carousel"),
+				current: 0,
+				moveCount: 0,
+				animating: false,
+				w: 400,
+				inc: 10,
+				initCarousel: function(){
+					carousel.style.left = "0px";
+		  		carousel.style.width = parseInt(this.lis.length*400) + 'px'
+				},
+				moveCarousel: function(dir){
+					// var finalPos = current*400*dir;
+					if(this.moveCount < (this.w/this.inc)){
+						this.carousel.style.left = parseInt(this.carousel.style.left) + dir*this.inc + 'px';
+						this.moveCount++
+						this.animating = true;
+						setTimeout(function(){myCarousel.moveCarousel(dir)},10); // call doMove() in 20 msec
+					}else{
+						this.animating = false;
+						this.moveCount = 0;
+					}
+				}
+			}
+
+			myCarousel.initCarousel(); // init the application
+
+
+			// when you click the prev button, run a func
+			document.getElementById("prev").onclick = function(e){
+		    // prevents page refresh
+		    e.preventDefault();
+
+		    // append the first li to the end
+		    //carousel.appendChild(lis[0]);
+		    if(myCarousel.current > 0 && !myCarousel.animating){
+		    	myCarousel.current--;
+		    	myCarousel.moveCarousel(1)
+		    }
+			}
+
+			// when you click the next button, run a func
+			document.getElementById("next").onclick = function(e){
+		    // prevents page refresh
+		    e.preventDefault();
+		    if(myCarousel.current < myCarousel.lis.length-1 && !myCarousel.animating){
+			    myCarousel.current++;
+			    myCarousel.moveCarousel(-1)
+			  }
+			}
+
+
+
+
+	
+	</script>
+</body>
+</html>
